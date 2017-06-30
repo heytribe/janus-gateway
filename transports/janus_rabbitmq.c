@@ -373,7 +373,7 @@ int janus_rabbitmq_init(janus_transport_callbacks *callback, const char *config_
 			rmq_client->janus_api_enabled = TRUE;
 			JANUS_LOG(LOG_VERB, "Declaring incoming queue... (%s)\n", to_janus);
 			rmq_client->to_janus_queue = amqp_cstring_bytes(to_janus);
-			amqp_queue_declare(rmq_client->rmq_conn, rmq_client->rmq_channel, rmq_client->to_janus_queue, 0, 0, 0, 0, amqp_empty_table);
+			amqp_queue_declare(rmq_client->rmq_conn, rmq_client->rmq_channel, rmq_client->to_janus_queue, 0, 0, 0, 1, amqp_empty_table);
 			result = amqp_get_rpc_reply(rmq_client->rmq_conn);
 			if(result.reply_type != AMQP_RESPONSE_NORMAL) {
 				JANUS_LOG(LOG_FATAL, "Can't connect to RabbitMQ server: error declaring queue... %s, %s\n", amqp_error_string2(result.library_error), amqp_method_name(result.reply.id));
@@ -381,7 +381,7 @@ int janus_rabbitmq_init(janus_transport_callbacks *callback, const char *config_
 			}
 			JANUS_LOG(LOG_VERB, "Declaring outgoing queue... (%s)\n", from_janus);
 			rmq_client->from_janus_queue = amqp_cstring_bytes(from_janus);
-			amqp_queue_declare(rmq_client->rmq_conn, rmq_client->rmq_channel, rmq_client->from_janus_queue, 0, 0, 0, 0, amqp_empty_table);
+			amqp_queue_declare(rmq_client->rmq_conn, rmq_client->rmq_channel, rmq_client->from_janus_queue, 0, 0, 0, 1, amqp_empty_table);
 			result = amqp_get_rpc_reply(rmq_client->rmq_conn);
 			if(result.reply_type != AMQP_RESPONSE_NORMAL) {
 				JANUS_LOG(LOG_FATAL, "Can't connect to RabbitMQ server: error declaring queue... %s, %s\n", amqp_error_string2(result.library_error), amqp_method_name(result.reply.id));
